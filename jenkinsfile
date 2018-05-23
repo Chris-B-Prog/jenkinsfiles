@@ -11,6 +11,14 @@ pipeline {
     }
 
     stages {
+        stage('Git-Clone'){
+            steps {
+                node {
+                    git 'https://github.com/Chris-B-Prog/jenkinstest.git'
+                }
+            }
+        }
+
         stage('Terra-Init'){
             steps {
                     sh 'terraform --version'
