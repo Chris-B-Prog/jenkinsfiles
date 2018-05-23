@@ -7,18 +7,18 @@ pipeline {
     environment {
         TF_HOME = tool('terraform-0.11.7')
         TF_IN_AUTOMATION = "true"
-        //PATH = "$TF_HOME:$PATH"
+        PATH = "$TF_HOME:$PATH"
     }
 
     stages {
-        stage('Git-Clone'){
+        stage('Git Clone'){
             steps {
                     sh 'rm -r $WORKSPACE/*'
                     sh 'git clone https://github.com/Chris-B-Prog/jenkinstest.git'
             }
         }
 
-        stage('Terra-Init'){
+        stage('Terra Init'){
             steps {
                     sh 'terraform --version'
                     sh 'terraform init'
@@ -27,7 +27,7 @@ pipeline {
                 
             }
         }
-        stage('Terraform-Plan'){
+        stage('Terraform Plan'){
             steps {
                 withCredentials([[
                     $class: 'AmazonWebServicesCredentialsBinding',
@@ -44,7 +44,7 @@ pipeline {
             }
         }
 
-        stage('Terraform-Apply'){
+        stage('Terraform Apply'){
             steps {
                 withCredentials([[
                     $class: 'AmazonWebServicesCredentialsBinding',
@@ -60,7 +60,7 @@ pipeline {
                 }
             }
         }
-                stage('Terraform-Destroy'){
+                stage('Terraform Destroy'){
             steps {
                 withCredentials([[
                     $class: 'AmazonWebServicesCredentialsBinding',
