@@ -13,6 +13,7 @@ pipeline {
     stages {
         stage('Git-Clone'){
             steps {
+                    sh 'rm -r'
                     sh 'git clone https://github.com/Chris-B-Prog/jenkinstest.git'
             }
         }
