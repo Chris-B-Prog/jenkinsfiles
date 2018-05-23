@@ -13,7 +13,6 @@ pipeline {
     stages {
         stage('Git-Clone'){
             steps {
-                node {
                     git 'https://github.com/Chris-B-Prog/jenkinstest.git'
                 }
             }
