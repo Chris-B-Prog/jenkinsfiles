@@ -22,7 +22,7 @@ pipeline {
             steps {
                     sh 'terraform --version'
                     sh 'ls'
-                    sh 'terraform init -from-module=jenkinsfile'
+                    sh 'terraform init -from-module=jenkinstest'
                     sh "echo \$PWD"
                     sh "whoami"
                 
@@ -40,7 +40,6 @@ pipeline {
                     sh 'AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}'
                     sh 'echo $AWS_ACCESS_KEY_ID'
                     sh 'echo $AWS_SECRET_ACCESS_KEY'
-                    sh 'cd jenkinstest'
                     sh "terraform plan -var 'aws_access_key=$AWS_ACCESS_KEY_ID' -var 'aws_secret_key=$AWS_SECRET_ACCESS_KEY'"
                 }
             }
@@ -58,7 +57,6 @@ pipeline {
                     sh 'AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}'
                     sh 'echo $AWS_ACCESS_KEY_ID'
                     sh 'echo $AWS_SECRET_ACCESS_KEY'
-                    sh 'cd jenkinstest'
                     sh "terraform apply -auto-approve -var 'aws_access_key=$AWS_ACCESS_KEY_ID' -var 'aws_secret_key=$AWS_SECRET_ACCESS_KEY'"
                 }
             }
