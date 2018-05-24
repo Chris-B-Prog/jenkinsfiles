@@ -21,6 +21,7 @@ pipeline {
         stage('Terraform Init'){
             steps {
                     sh 'terraform --version'
+                    sh 'ls'
                     sh 'terraform init -from-module=jenkinsfile'
                     sh "echo \$PWD"
                     sh "whoami"
