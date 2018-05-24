@@ -20,6 +20,8 @@ pipeline {
 
         stage('Terraform Init'){
             steps {
+                    sh 'cd jenkinstest'
+                    sh 'pwd'
                     sh 'terraform --version'
                     sh 'terraform init'
                     sh "echo \$PWD"
