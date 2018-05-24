@@ -20,11 +20,8 @@ pipeline {
 
         stage('Terraform Init'){
             steps {
-                    sh 'cd /var/lib/jenkins/workspace/moduletesting/jenkinstest'
-                    sh 'pwd'
-                    sh 'ls'
                     sh 'terraform --version'
-                    sh 'terraform init'
+                    sh 'terraform init -from-module=jenkinsfile'
                     sh "echo \$PWD"
                     sh "whoami"
                 
