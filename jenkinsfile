@@ -10,7 +10,7 @@ pipeline {
         PATH = "$TF_HOME:$PATH"
     }
 
-    def terraform (command){
+    def terraform(command){
         steps {
             withCredentials([[
                 $class: 'AmazonWebServicesCredentialsBinding',
