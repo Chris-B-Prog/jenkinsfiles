@@ -80,7 +80,7 @@ pipeline {
     }
 }
 
-def terraform(command){
+def tf(command){
         steps {
             withCredentials([[
                 $class: 'AmazonWebServicesCredentialsBinding',
