@@ -1,7 +1,7 @@
-def tf(command, myParam){
+def tf(credid, command, myParam){
      withCredentials([[
         $class: 'AmazonWebServicesCredentialsBinding',
-        credentialsId: 'AWS56',
+        credentialsId: ${credid},
         accessKeyVariable: 'AWS_ACCESS_KEY_ID',
         secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
         ]])
@@ -43,19 +43,19 @@ pipeline {
  
         stage('Terraform Plan'){
             steps {
-                tf("plan", "")
+                tf("AWS56", "plan", "")
             }
         }
  
         stage('Terraform Apply'){
             steps {
-                tf("apply", "-auto-approve")
+                tf("AWS56", "apply", "-auto-approve")
             }
         }
  
         stage('Terraform Destroy'){
             steps {
-                tf("destroy", "-auto-approve")
+                tf("AWS56", "destroy", "-auto-approve")
             }
         }
     }
