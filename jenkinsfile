@@ -1,4 +1,4 @@
-def tf(command){
+def tf2(command){
      sh 'AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}'
      sh "terraform ${command} -var 'aws_access_key=$AWS_ACCESS_KEY_ID' -var 'aws_secret_key=$AWS_SECRET_ACCESS_KEY'"
 }
@@ -44,7 +44,6 @@ pipeline {
         }
         stage('Terraform Plan'){
             steps {
-                auth()
                 tf(plan)
             }
         }
@@ -80,7 +79,7 @@ pipeline {
     }
 }
 
-def tf2(command){
+def tf(command){
         steps {
             withCredentials([[
                 $class: 'AmazonWebServicesCredentialsBinding',
