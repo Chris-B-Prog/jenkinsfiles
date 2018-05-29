@@ -55,7 +55,7 @@ pipeline {
  
         stage('Terraform Destroy'){
             steps {
-                tf("destroy", "auto-approve")
+                tf("destroy", "-auto-approve")
             }
         }
     }
