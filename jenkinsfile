@@ -1,38 +1,28 @@
-def tf(command){
+def tf(command, myParam){
      withCredentials([[
         $class: 'AmazonWebServicesCredentialsBinding',
         credentialsId: 'AWS56',
         accessKeyVariable: 'AWS_ACCESS_KEY_ID',
         secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
         ]])
-
-    {
-        if ( ${command} == "plan" ){  
-        sh "AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}"
-        sh "terraform ${command} -var 'aws_access_key=$AWS_ACCESS_KEY_ID' -var 'aws_secret_key=$AWS_SECRET_ACCESS_KEY'"
+        {
+          sh "AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}"
+          sh "terraform ${command} -var 'aws_access_key=$AWS_ACCESS_KEY_ID' -var 'aws_secret_key=$AWS_SECRET_ACCESS_KEY' ${myParam}"
         }
-
-
-     else {
-        sh "AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}"
-        sh "terraform ${command} -var -auto-approve 'aws_access_key=$AWS_ACCESS_KEY_ID' -var 'aws_secret_key=$AWS_SECRET_ACCESS_KEY'"
-     }
     }
-
 }
-
 pipeline {
     agent any
     tools {
         "org.jenkinsci.plugins.terraform.TerraformInstallation" "terraform-0.11.7"
     }
-
+ 
     environment {
         TF_HOME = tool('terraform-0.11.7')
         TF_IN_AUTOMATION = "true"
         PATH = "$TF_HOME:$PATH"
     }
-
+ 
     stages {
         stage('Git Clone'){
             steps {
@@ -40,33 +30,32 @@ pipeline {
                     sh 'git clone https://github.com/Chris-B-Prog/jenkinstest.git'
             }
         }
-
+ 
         stage('Terraform Init'){
             steps {
+                    tf("init","-from-module=jenkinstest")
                     sh 'terraform --version'
-                    sh 'ls'
-                    sh 'terraform init -from-module=jenkinstest'
                     sh "echo \$PWD"
                     sh "whoami"
-                
+ 
             }
         }
-
+ 
         stage('Terraform Plan'){
             steps {
-                tf("plan")
+                tf("plan", "")
             }
         }
-
+ 
         stage('Terraform Apply'){
             steps {
-                tf("apply")
+                tf("apply", "-auto-approve")
             }
         }
-
+ 
         stage('Terraform Destroy'){
             steps {
-                tf("destroy")
+                tf("destroy", "auto-approve")
             }
         }
     }
