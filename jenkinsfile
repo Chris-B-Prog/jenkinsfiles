@@ -43,17 +43,6 @@ pipeline {
             }
         }
 
-        stage('Authenticate'){
-            steps {
-                withCredentials([[
-                    $class: 'AmazonWebServicesCredentialsBinding',
-                    credentialsId: 'AWS56',
-                    accessKeyVariable: 'AWS_ACCESS_KEY_ID',
-                    secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
-                ]]) 
-        }
-        }
-
         stage('Terraform Plan'){
             steps {
                 withCredentials([[
