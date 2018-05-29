@@ -43,9 +43,7 @@ pipeline {
             }
         }
         stage('Terraform Plan'){
-            steps {
                 tf('plan')
-            }
         }
 
         stage('Terraform Apply'){
